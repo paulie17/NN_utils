@@ -4,7 +4,12 @@ import torchvision
 from torchvision.datasets.utils import extract_archive
 from torchvision.datasets.utils import download_url
 from torchvision.datasets import ImageFolder
+from torch.utils.data import DataLoader
+from torchvision.utils import make_grid
 import torchvision.transforms as tt
+
+import matplotlib
+import matplotlib.pyplot as plt
 
 
 def download_full_dataset():
