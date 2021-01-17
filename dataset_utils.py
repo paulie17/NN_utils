@@ -4,6 +4,8 @@ import torchvision
 from torchvision.datasets.utils import extract_archive
 from torchvision.datasets.utils import download_url
 from torchvision.datasets import ImageFolder
+import torchvision.transforms as tt
+
 
 def download_full_dataset():
     data_url = "http://www.lamsade.dauphine.fr/~bnegrevergne/webpage/software/rasta/wikipaintings_full.tgz"
