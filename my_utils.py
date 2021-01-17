@@ -5,13 +5,6 @@ def alexnet(pretrained = True):
   repo = 'pytorch/vision'
   return torch.hub.load(repo, 'alexnet', pretrained)
 
-def get_default_device():
-    """Pick GPU if available, else CPU"""
-    if torch.cuda.is_available():
-        return torch.device('cuda')
-    else:
-        return torch.device('cpu')
-
 def conv_block_layers(in_channels, out_channels, ks=3, stride=1, pool = False, activation = True):
   layers = [nn.Conv2d(in_channels, out_channels, kernel_size=ks, stride=stride, padding=ks//2, bias = False),
             nn.BatchNorm2d(out_channels)]
