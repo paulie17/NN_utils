@@ -37,3 +37,23 @@ def train_valid_dataset(data_dir):
     train_ds = ImageFolder(data_dir + '/wikipaintings_train', train_tfms)
     valid_ds = ImageFolder(data_dir + '/wikipaintings_val',valid_tfms)
     return train_ds, valid_ds
+
+def denormalize(images, means=[0.485, 0.456, 0.406], stds=[0.229, 0.224, 0.225]):
+  means = torch.tensor(means).reshape([1,3,1,1])
+  stds = torch.tensor(stds).reshape([1,3,1,1])
+  return images * stds + means
+
+#stats = ((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
+
+def show_example(dataset,idx):
+    img,label = dataset[idx]
+    print('Label: ', dataset.classes[label], "("+str(label)+")")
+    plt.imshow(img.permute(1,2,0))
+
+def show_batch(dl,nrow):
+  for images,labels in dl:
+    fig,ax = plt.subplots(figsize=(12,12))
+    ax.set_xticks([]); ax.set_yticks([])
+    denorm_images = denormalize(images, *stats)
+    ax.imshow(make_grid(denorm_images, nrow=nrow).permute(1,2,0).clamp(0.1))
+    break
