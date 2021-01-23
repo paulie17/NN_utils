@@ -97,5 +97,8 @@ class ResNet(nn.Module):
 def resnet18(num_classes = 1000):
   return ResNet(BasicBlock, [2, 2, 2, 2], num_classes= num_classes)
 
+def resnet34(num_classes = 1000):
+  return ResNet(BasicBlock, [3, 4, 6, 3], num_classes= num_classes)
+
 def resnet50(num_classes = 1000):
   return ResNet(BottleNeck, [3, 4, 6, 3], num_classes= num_classes)
