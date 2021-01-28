@@ -63,10 +63,10 @@ def train_valid_dataset(data_dir):
                          tt.RandomRotation((0,90)),
                          tt.ToTensor(),
                          tt.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-                         tt.RandomResizedCrop(size = (227), scale=(0.5,1))])
+                         tt.RandomResizedCrop(size = (224), scale=(0.5,1))])
     valid_tfms = tt.Compose([tt.ToTensor(),
                          tt.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-                         tt.RandomResizedCrop(size = (227), scale=(0.5,1))])
+                         tt.RandomResizedCrop(size = (224), scale=(0.5,1))])
     train_ds = ImageFolder(data_dir + '/wikipaintings_train', train_tfms)
     valid_ds = ImageFolder(data_dir + '/wikipaintings_val',valid_tfms)
     return train_ds, valid_ds
