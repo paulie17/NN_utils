@@ -2,10 +2,6 @@ import torch
 import torch.nn as nn
 from efficientnet_pytorch.utils import Conv2dDynamicSamePadding,MaxPool2dDynamicSamePadding
 
-def alexnet(pretrained = True):
-  repo = 'pytorch/vision:v0.6.0'
-  return torch.hub.load(repo, 'alexnet', pretrained)
-
 def conv_block_layers(in_channels, out_channels, ks=3, stride=1, pool = False, activation = True):
   layers = [Conv2dDynamicSamePadding(in_channels, out_channels, kernel_size=ks, stride=stride, bias = False),
             nn.BatchNorm2d(out_channels)]
