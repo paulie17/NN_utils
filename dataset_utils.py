@@ -84,10 +84,9 @@ def show_example(dataset,idx):
     plt.imshow(img.permute(1,2,0))
 
 def show_batch(dl,nrow):
-    stats = ((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
     for images,labels in dl:
       fig,ax = plt.subplots(figsize=(12,12))
       ax.set_xticks([]); ax.set_yticks([])
-      denorm_images = denormalize(images, *stats)
+      denorm_images = denormalize(images)
       ax.imshow(make_grid(denorm_images, nrow=nrow).permute(1,2,0).clamp(0.1))
       break
