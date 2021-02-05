@@ -44,7 +44,7 @@ def get_lr(optimizer):
   for param_group in optimizer.param_groups:
     return param_group['lr']
 
-def fit_one_cycle(epochs, max_lr, model, train_loader, val_loader, weight_decay = 0,
+def fit_one_cycle(epochs, max_lr, model, train_loader, val_loader, weight_decay = 0.0,
                   grad_clip = None, opt_func = torch.optim.SGD):
   torch.cuda.empty_cache()
   history = []
@@ -66,7 +66,7 @@ def fit_one_cycle(epochs, max_lr, model, train_loader, val_loader, weight_decay 
       loss.backward()
 
       # Gradient clipping
-      if grad_clip:
+      if grad_clip is not None:
         nn.utils.clip_grad_value_(model.parameters(), grad_clip)
 
       optimizer.step()
