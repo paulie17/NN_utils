@@ -58,18 +58,34 @@ def download_small_dataset():
     classes = os.listdir(data_dir + "/wikipaintings_train")
     return data_dir, classes
 
-def train_valid_dataset(data_dir):
-    train_tfms = tt.Compose([tt.RandomHorizontalFlip(),
+def train_valid_test_dataset(data_dir):
+    train_tfms = tt.Compose([
+                         tt.RandomHorizontalFlip(),
                          tt.RandomRotation((0,90)),
                          tt.ToTensor(),
                          tt.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-                         tt.RandomResizedCrop(size = (224), scale=(0.5,1))])
-    valid_tfms = tt.Compose([tt.ToTensor(),
+                         tt.RandomResizedCrop(size = (224), scale=(0.5,1))
+                         ])
+    valid_tfms = tt.Compose([
+                         SquarePad(),
+                         tt.Resize((224,224)),
+                         tt.ToTensor(),
                          tt.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-                         tt.RandomResizedCrop(size = (224), scale=(0.5,1))])
+                         ])
     train_ds = ImageFolder(data_dir + '/wikipaintings_train', train_tfms)
     valid_ds = ImageFolder(data_dir + '/wikipaintings_val',valid_tfms)
-    return train_ds, valid_ds
+    test_ds = ImageFolder(data_dir + '/wikipaintings_test',valid_tfms)
+    return train_ds, valid_ds, test_ds
+
+class SquarePad:
+  def __call__(self, image):
+    w, h = image.size
+    max_wh = np.max([w, h])
+    hp = int((max_wh - w) / 2)
+    vp = int((max_wh - h) / 2)
+    padding = (hp, vp, hp, vp)
+    pad = tt.Pad(padding)
+    return pad(image)
 
 def denormalize(images, means=[0.485, 0.456, 0.406], stds=[0.229, 0.224, 0.225]):
     means = torch.tensor(means).reshape([1,3,1,1])
