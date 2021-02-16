@@ -33,7 +33,7 @@ def validation_epoch_end(outputs):
 
 def epoch_end(epoch,result):
   print("Epoch [{}], last_lr: {:.5f}, train_loss: {:.4f}, train_accuracy: {:.4f} val_loss: {:.4f}, val_acc: {:.4f}"
-        .format(epoch, result['lrs'][-1], result['train_loss'], result['train_accuracy'], result['val_loss'], result['val_acc']))
+        .format(epoch+1, result['lrs'][-1], result['train_loss'], result['train_accuracy'], result['val_loss'], result['val_acc']))
 
 @torch.no_grad()
 def evaluate(model, val_loader):
@@ -89,10 +89,13 @@ def fit_one_cycle(epochs, max_lr, model, train_loader, val_loader, weight_decay 
   return history
 
 def plot_accuracies(history):
-  accuracies = [x['val_acc'] for x in history]
-  plt.plot(accuracies, '-x')
+  val_accuracies = [x['val_acc'] for x in history]
+  train_accuracies = [x['train_accuracy'] for x in history]
+  plt.plot(val_accuracies, '-bx')
+  plt.plot(train_accuracies, '-rx')
   plt.xlabel('epoch')
   plt.ylabel('accuracy')
+  plt.legend(['Validation','Training'])
   plt.title('Accuracy vs No. of epochs');
 
 def plot_losses(history):
