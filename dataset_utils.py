@@ -7,6 +7,7 @@ from torchvision.datasets import ImageFolder
 from torch.utils.data import DataLoader
 from torchvision.utils import make_grid
 import torchvision.transforms as tt
+import numpy as np
 
 import matplotlib
 import matplotlib.pyplot as plt
