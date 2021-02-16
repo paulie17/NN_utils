@@ -45,8 +45,6 @@ def download_full_dataset():
     data_url = "http://www.lamsade.dauphine.fr/~bnegrevergne/webpage/software/rasta/wikipaintings_full.tgz"
     download_url(data_url,'.')
     extract_archive('./wikipaintings_full.tgz','./data')
-    dataset_path = './wikipaintings_full.tgz'
-    extract_archive(dataset_path,'./data')
     data_dir = './data/wikipaintings_full'
     classes = os.listdir(data_dir + "/wikipaintings_train")
     return data_dir, classes
