@@ -14,7 +14,8 @@ def training_step(model,batch):
   images,labels = batch
   out = model(images)
   loss = F.cross_entropy(out, labels)
-  return loss
+  acc = accuracy(out,labels)
+  return loss, acc
 
 def validation_step(model,batch):
   images,labels = batch
@@ -31,8 +32,8 @@ def validation_epoch_end(outputs):
   return {'val_loss': epoch_loss.item(), 'val_acc': epoch_acc.item()}
 
 def epoch_end(epoch,result):
-  print("Epoch [{}], last_lr: {:.5f}, train_loss: {:.4f}, val_loss: {:.4f}, val_acc: {:.4f}"
-        .format(epoch, result['lrs'][-1], result['train_loss'], result['val_loss'], result['val_acc']))
+  print("Epoch [{}], last_lr: {:.5f}, train_loss: {:.4f}, train_accuracy: {:.4f} val_loss: {:.4f}, val_acc: {:.4f}"
+        .format(epoch, result['lrs'][-1], result['train_loss'], result['train_accuracy'], result['val_loss'], result['val_acc']))
 
 @torch.no_grad()
 def evaluate(model, val_loader):
@@ -59,10 +60,12 @@ def fit_one_cycle(epochs, max_lr, model, train_loader, val_loader, weight_decay 
     # Training phase
     model.train()
     train_losses = []
+    train_accuracies = []
     lrs = []
     for batch in train_loader:
-      loss = training_step(model,batch)
+      loss, acc = training_step(model,batch)
       train_losses.append(loss)
+      train_accuracies.append(acc)
       loss.backward()
 
       # Gradient clipping
@@ -79,6 +82,7 @@ def fit_one_cycle(epochs, max_lr, model, train_loader, val_loader, weight_decay 
     # Validation phase
     result = evaluate(model, val_loader)
     result['train_loss'] = torch.stack(train_losses).mean().item()
+    result['train_accuracy'] = torch.stack(train_accuracies).mean().item()
     result['lrs'] = lrs
     epoch_end(epoch,result)
     history.append(result)
