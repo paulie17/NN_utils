@@ -91,8 +91,8 @@ def fit_one_cycle(epochs, max_lr, model, train_loader, val_loader, weight_decay 
 def plot_accuracies(history):
   val_accuracies = [x['val_acc'] for x in history]
   train_accuracies = [x['train_accuracy'] for x in history]
-  plt.plot(val_accuracies, '-bx')
-  plt.plot(train_accuracies, '-rx')
+  plt.plot(val_accuracies, '-rx')
+  plt.plot(train_accuracies, '-bx')
   plt.xlabel('epoch')
   plt.ylabel('accuracy')
   plt.legend(['Validation','Training'])
