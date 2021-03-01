@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
 
+# Utilities to build the architecture of the standard ResNet
+
 def alexnet(pretrained = True):
   repo = 'pytorch/vision'
   return torch.hub.load(repo, 'alexnet', pretrained)

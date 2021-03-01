@@ -6,6 +6,8 @@ import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.rcParams['figure.facecolor'] = '#ffffff'
 
+# Utilities to train the models.
+
 def accuracy(outputs,labels):
   _, preds = torch.max(outputs, dim=1)
   return torch.tensor(torch.sum(preds == labels).item()/len(preds))

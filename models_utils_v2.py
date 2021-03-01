@@ -2,6 +2,9 @@ import torch
 import torch.nn as nn
 from efficientnet_pytorch.utils import Conv2dDynamicSamePadding,MaxPool2dDynamicSamePadding
 
+# Utilities to build the architecture of ResNet in its variant with identity
+# mappings and pre-activations.
+
 def conv_block_layers(in_channels, out_channels, ks=3, stride=1, pool = False, activation = True):
   layers = [Conv2dDynamicSamePadding(in_channels, out_channels, kernel_size=ks, stride=stride, bias = False),
             nn.BatchNorm2d(out_channels)]
